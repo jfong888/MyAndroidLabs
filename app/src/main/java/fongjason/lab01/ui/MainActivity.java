@@ -1,8 +1,10 @@
 package fongjason.lab01.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.telephony.mbms.MbmsErrors;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -31,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
         model = new ViewModelProvider(this).get(MainViewModel.class);
 
         variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_main);
-        //setContentView(variableBinding.getRoot());
+        View view = variableBinding.getRoot();
+        //setContentView(R.layout.activity_main);
+        setContentView(view);
 
         changeText();
 
@@ -41,14 +44,26 @@ public class MainActivity extends AppCompatActivity {
             model.editString.postValue(variableBinding.myedittext.getText().toString());
         });
 
-        model.editString.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                //model.editString.observe(this, s -> {
-                   // variableBinding.textview.setText("Your edit text has:" + s);
-                //});
-            }
+
+        model.editString.observe(this, s -> {
+            variableBinding.textview.setText("Your edit text has:" + s);
         });
+
+        model.isSelected.observe(this, selected -> {
+            variableBinding.checkbox1.setChecked(selected);
+            variableBinding.checkbox2.setChecked(selected);
+            variableBinding.radiobutton1.setChecked(selected);
+            variableBinding.radiobutton2.setChecked(selected);
+            variableBinding.switch1.setChecked(selected);
+            variableBinding.switch2.setChecked(selected);
+        });
+
+        //Context context = MainActivity.this;
+        //CharSequence text = "The Value is now: " + selected;
+        //int duration = Toast.LENGTH_SHORT;
+
+        //Toast toast = Toast.makeText(context, text, duration);
+        //toast.show();
     }
         private void changeText() {
 
@@ -56,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             TextView mytext = (TextView) findViewById(R.id.textview);
             EditText myedit = (EditText) findViewById(R.id.myedittext);
 
-            mybuton.setOnClickListener(new View.OnClickListener() {
+            mybuton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String editString = myedit.getText().toString();

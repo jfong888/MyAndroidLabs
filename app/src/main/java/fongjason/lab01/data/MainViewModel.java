@@ -11,4 +11,8 @@ public class MainViewModel extends ViewModel{
     public MutableLiveData<String> getEditString (){
         return editString;
     }
+
+    public MutableLiveData<Boolean> getIsSelected (){
+        return isSelected;
+    }
 }
