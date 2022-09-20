@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -46,7 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         model.editString.observe(this, s -> {
-            variableBinding.textview.setText("Your edit text has:" + s);
+            variableBinding.textview.setText("Your edit text has: " + s);
+        });
+
+        variableBinding.checkbox1.setOnClickListener(click ->
+        {
+            model.isSelected.postValue(variableBinding.checkbox1.);
         });
 
         model.isSelected.observe(this, selected -> {
@@ -56,14 +62,28 @@ public class MainActivity extends AppCompatActivity {
             variableBinding.radiobutton2.setChecked(selected);
             variableBinding.switch1.setChecked(selected);
             variableBinding.switch2.setChecked(selected);
+
+            Context context = MainActivity.this;
+            CharSequence text = "The Value is now: " + selected;
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         });
 
-        //Context context = MainActivity.this;
-        //CharSequence text = "The Value is now: " + selected;
-        //int duration = Toast.LENGTH_SHORT;
+        variableBinding.myimagebutton.setOnClickListener(click -> {
+            ImageButton imageButton = (ImageButton)findViewById(R.id.myimagebutton);
+            int width = imageButton.getDrawable().getIntrinsicWidth();
+            int height = imageButton.getDrawable().getIntrinsicHeight();
 
-        //Toast toast = Toast.makeText(context, text, duration);
-        //toast.show();
+            Context context = MainActivity.this;
+            CharSequence text = "The width = " + width + " and height = " + height;
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        });
+
     }
         private void changeText() {
 
