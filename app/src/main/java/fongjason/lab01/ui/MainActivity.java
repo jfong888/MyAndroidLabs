@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,14 +47,8 @@ public class MainActivity extends AppCompatActivity {
             model.editString.postValue(variableBinding.myedittext.getText().toString());
         });
 
-
         model.editString.observe(this, s -> {
             variableBinding.textview.setText("Your edit text has: " + s);
-        });
-
-        variableBinding.checkbox1.setOnClickListener(click ->
-        {
-            model.isSelected.postValue(variableBinding.checkbox1.);
         });
 
         model.isSelected.observe(this, selected -> {
@@ -62,13 +58,118 @@ public class MainActivity extends AppCompatActivity {
             variableBinding.radiobutton2.setChecked(selected);
             variableBinding.switch1.setChecked(selected);
             variableBinding.switch2.setChecked(selected);
+        });
 
-            Context context = MainActivity.this;
-            CharSequence text = "The Value is now: " + selected;
-            int duration = Toast.LENGTH_SHORT;
+        CheckBox checkBox1 = (CheckBox) findViewById(R.id.checkbox1);
+        CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkbox2);
+        RadioButton radioButton1 = (RadioButton) findViewById(R.id.radiobutton1);
+        RadioButton radioButton2 = (RadioButton) findViewById(R.id.radiobutton2);
+        Switch aSwitch1 = (Switch) findViewById(R.id.switch1);
+        Switch aSwitch2 = (Switch) findViewById(R.id.switch2);
 
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
+        checkBox1.setOnCheckedChangeListener((checkbox1, isSelected) -> {
+            if(checkBox1.isChecked()) {
+                Context context = MainActivity.this;
+                CharSequence text = "Yes, I do drink Coffee";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            } else {
+                Context context = MainActivity.this;
+                CharSequence text = "option deselected :(";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+
+        });
+        checkBox2.setOnCheckedChangeListener((checkbox2, isSelected) -> {
+            if(checkBox2.isChecked()) {
+                Context context = MainActivity.this;
+                CharSequence text = "No, I do not drink Coffee";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            } else {
+                Context context = MainActivity.this;
+                CharSequence text = "option deselected :(";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+
+        });
+        radioButton1.setOnCheckedChangeListener((radiobutton1, isSelected) -> {
+            if(radioButton1.isChecked()) {
+                Context context = MainActivity.this;
+                CharSequence text = "Yes, I do drink Coffee";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            } else {
+                Context context = MainActivity.this;
+                CharSequence text = "option deselected :(";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        });
+        radioButton2.setOnCheckedChangeListener((radiobutton2, isSelected) -> {
+            if(radioButton2.isChecked()) {
+                Context context = MainActivity.this;
+                CharSequence text = "No, I do not drink Coffee";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            } else {
+                Context context = MainActivity.this;
+                CharSequence text = "option deselected :(";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        });
+        aSwitch1.setOnCheckedChangeListener((switch1, isSelected) -> {
+            if(aSwitch1.isChecked()) {
+                Context context = MainActivity.this;
+                CharSequence text = "Yes, I do drink Coffee";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            } else {
+                Context context = MainActivity.this;
+                CharSequence text = "Option deselected :(";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        });
+        aSwitch2.setOnCheckedChangeListener((switch2, isSelected) -> {
+            if(aSwitch2.isChecked()) {
+                Context context = MainActivity.this;
+                CharSequence text = "No, I do not drink Coffee";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            } else {
+                Context context = MainActivity.this;
+                CharSequence text = "Option deselected :(";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
         });
 
         variableBinding.myimagebutton.setOnClickListener(click -> {
