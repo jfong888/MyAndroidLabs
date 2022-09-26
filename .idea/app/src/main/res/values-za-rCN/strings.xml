@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FongJason Lab01</string>
+    <string name="hello_message">你好世界 ：）</string>
+    <string name="button_message">点击我</string>
+    <string name="editmessage">我是编辑文本</string>
+    <string name="checkbox1">是的</string>
+    <string name="radiobutton1">是的</string>
+    <string name="switch1">是的</string>
+    <string name="checkbox2">不</string>
+    <string name="radiobutton2">不</string>
+    <string name="switch2">不</string>
+    <string name="textview2">你喝咖啡吗?</string>
+    <string name="hinttext">在这里写点东西</string>
+</resources>
