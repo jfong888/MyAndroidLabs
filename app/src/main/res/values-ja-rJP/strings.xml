@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FongJason Lab01</string>
+    <string name="hello_message">こんにちは世界 ：）</string>
+    <string name="button_message">テキストを変更:)</string>
+    <string name="editmessage">私は編集テキストです</string>
+    <string name="checkbox1">はい</string>
+    <string name="radiobutton1">はい</string>
+    <string name="switch1">はい</string>
+    <string name="checkbox2">いいえ</string>
+    <string name="radiobutton2">いいえ</string>
+    <string name="switch2">いいえ</string>
+    <string name="textview2">コーヒーをのみますか？</string>
+    <string name="hinttext">ここに何か書いてください</string>
+</resources>

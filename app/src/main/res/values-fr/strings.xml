@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FongJason Lab01</string>
-    <string name="button_message">Cliquez sur moi</string>
+    <string name="button_message">Changer de texte :)</string>
     <string name="hello_message">Bonjour le monde :)</string>
+    <string name="editmessage">Je suis un éditeur de texte</string>
+    <string name="checkbox2">Non</string>
+    <string name="radiobutton2">Non</string>
+    <string name="switch2">Non</string>
+    <string name="checkbox1">Oui</string>
+    <string name="radiobutton1">Oui</string>
+    <string name="switch1">Oui</string>
+    <string name="textview2">Bois-tu du café?</string>
+    <string name="hinttext">Écrivez quelque chose ici</string>
 </resources>
