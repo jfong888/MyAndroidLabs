@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="fongjason.lab01">
+    package="com.example.fong_jason_lab5">
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/app_icon"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FongJasonLab01"
+        android:theme="@style/Theme.Fong_Jason_Lab5"
         tools:targetApi="31">
         <activity
-            android:name="fongjason.lab01.ui.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
