@@ -12,11 +12,10 @@ import java.util.regex.Pattern;
 
 /**
  * This class verifies the passwords entered by user
- * @author Jason Fong
- * @see fongjason.lab01.databinding.ActivityMainBinding
- * @see android.widget.Toast
  * @see androidx.appcompat.app.AppCompatActivity
  * @see android.os.Bundle
+ * @see android.widget.Toast
+ * @see fongjason.lab01.databinding.ActivityMainBinding
  * @see java.util.regex.Pattern
  */
 public class MainActivity extends AppCompatActivity {

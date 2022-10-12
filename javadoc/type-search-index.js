@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"fongjason.lab01.databinding","l":"ActivityMainBinding"},{"l":"All Classes","url":"allclasses-index.html"},{"p":"fongjason.lab01","l":"BuildConfig"},{"p":"fongjason.lab01","l":"MainActivity"}]
