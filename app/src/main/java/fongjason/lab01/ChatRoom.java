@@ -20,62 +20,56 @@ import java.util.Date;
 
 import fongjason.lab01.databinding.ActivityChatRoomBinding;
 import fongjason.lab01.databinding.SentMessageBinding;
+import fongjason.lab01.databinding.ReceiveMessageBinding;
 
 public class ChatRoom extends AppCompatActivity {
-    Context context;
-    ActivityChatRoomBinding binding;
-    ArrayList<ChatMessage> messages = new ArrayList<>();
-    ChatRoomViewModel chatModel;
 
-    private RecyclerView.Adapter myAdapter;
+    ActivityChatRoomBinding binding;
+    ChatRoomViewModel chatModel;
+    ArrayList<String> messages;
+
+    private RecyclerView.Adapter<SenderViewHolder> myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
         messages = chatModel.messages.getValue();
-        if(messages == null){
+        if(messages == null)
+        {
             chatModel.messages.postValue(messages = new ArrayList<>());
         }
 
         binding.send.setOnClickListener(click -> {
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
-            String currentDateandTime = sdf.format(new Date());
-            messages.add(binding.message.getText().toString(),m);
-            myAdapter.notifyItemInserted(messages.size()-1);
-            binding.message.setText("");
 
+            chatModel.messages.getValue().add(binding.message.getText().toString());
+            myAdapter.notifyItemInserted( messages.size()-1 );
+            //clear the previous text:
+            binding.message.setText("");
         });
 
-        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        //Set a layout manager for the rows to be aligned vertically using only 1 column.
+        binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
+
+        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<SenderViewHolder>() {
             @NonNull
             @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                if (viewType == 0){
-                    View view = LayoutInflater.from(context).inflate(R.layout.sent_message,parent,false);
-                    return new SenderViewHolder(view);
-                } else {
-                    View view= LayoutInflater.from(context).inflate(R.layout.receive_message,parent,false);
-                    return new RecieverViewHolder(view);
-                }
-
+            public SenderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
+                return new SenderViewHolder(  binding.getRoot() );
             }
 
             @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-                ChatMessage message = messages.get(position);
-                if (holder.getClass()==SenderViewHolder.class){
-                    SenderViewHolder viewHolder=(SenderViewHolder)holder;
-                    viewHolder.textViewmessaage.setText(message.getMessage());
-                    viewHolder.timeofmessage.setText(message.getTimeSent());
-                } else {
-                    RecieverViewHolder viewHolder=(RecieverViewHolder)holder;
-                    viewHolder.textViewmessaage.setText(message.getMessage());
-                    viewHolder.timeofmessage.setText(message.getTimeSent());
-                }
+            public void onBindViewHolder(@NonNull SenderViewHolder holder, int position) {
+
+                   SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MMM-dd hh:mm:ss a");
+                   String currentDateandTime = sdf.format(new Date());
+                   holder.textViewmessaage.setText(messages.get(position));
+                   holder.timeofmessage.setText(currentDateandTime);
 
             }
 
@@ -85,13 +79,13 @@ public class ChatRoom extends AppCompatActivity {
             }
 
             @Override
-            public int getItemViewType(int position){
+            public int getItemViewType(int position) {
                 return 0;
             }
         });
 
-        binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
+
 
     class SenderViewHolder extends RecyclerView.ViewHolder {
         TextView textViewmessaage;
