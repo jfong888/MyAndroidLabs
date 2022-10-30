@@ -26,9 +26,10 @@ public class ChatRoom extends AppCompatActivity {
 
     ActivityChatRoomBinding binding;
     ChatRoomViewModel chatModel;
-    ArrayList<String> messages;
+    ArrayList<ChatMessage> messages;
 
     private RecyclerView.Adapter<SenderViewHolder> myAdapter;
+    private Object ChatMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,8 @@ public class ChatRoom extends AppCompatActivity {
         }
 
         binding.send.setOnClickListener(click -> {
-
-            chatModel.messages.getValue().add(binding.message.getText().toString());
+            ChatMessage = new ChatMessage();
+            chatModel.messages.getValue().add((fongjason.lab01.ChatMessage) ChatMessage);
             myAdapter.notifyItemInserted( messages.size()-1 );
             //clear the previous text:
             binding.message.setText("");
@@ -68,7 +69,7 @@ public class ChatRoom extends AppCompatActivity {
 
                    SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MMM-dd hh:mm:ss a");
                    String currentDateandTime = sdf.format(new Date());
-                   holder.textViewmessaage.setText(messages.get(position));
+                   holder.textViewmessaage.setText((CharSequence) messages.get(position));
                    holder.timeofmessage.setText(currentDateandTime);
 
             }
@@ -80,7 +81,11 @@ public class ChatRoom extends AppCompatActivity {
 
             @Override
             public int getItemViewType(int position) {
-                return 0;
+               if (messages.get(position).type == SenderViewHolder) {
+                   return 0;
+               } else {
+                   return 1;
+               }
             }
         });
 
