@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,11 @@ import fongjason.lab01.databinding.SentMessageBinding;
 import fongjason.lab01.databinding.ReceiveMessageBinding;
 
 public class ChatRoom extends AppCompatActivity {
-
     ActivityChatRoomBinding binding;
     ChatRoomViewModel chatModel;
     ArrayList<ChatMessage> messages;
-
-    private RecyclerView.Adapter<SenderViewHolder> myAdapter;
+    Context context;
+    private RecyclerView.Adapter<MyRowHolder> myAdapter;
     private Object ChatMessage;
 
     @Override
@@ -40,15 +40,33 @@ public class ChatRoom extends AppCompatActivity {
 
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
         messages = chatModel.messages.getValue();
+
+
         if(messages == null)
         {
             chatModel.messages.postValue(messages = new ArrayList<>());
         }
 
         binding.send.setOnClickListener(click -> {
-            ChatMessage = new ChatMessage();
+
+            String msg = binding.message.getText().toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MMM-dd hh:mm:ss a");
+            String currentDateandTime = sdf.format(new Date());
+            ChatMessage = new ChatMessage(getApplicationContext(), new ChatMessage(msg, currentDateandTime,true).getMessage(), new ChatMessage(msg, currentDateandTime,true).getTimeSent(), new ChatMessage(msg, currentDateandTime,true).getIsSentButton() );
             chatModel.messages.getValue().add((fongjason.lab01.ChatMessage) ChatMessage);
-            myAdapter.notifyItemInserted( messages.size()-1 );
+            myAdapter.notifyItemInserted( messages.size() - 1 );
+            //clear the previous text:
+            binding.message.setText("");
+        });
+
+        binding.receive.setOnClickListener(click -> {
+
+            String msg = binding.message.getText().toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MMM-dd hh:mm:ss a");
+            String currentDateandTime = sdf.format(new Date());
+            ChatMessage = new ChatMessage(getApplicationContext(), new ChatMessage(msg, currentDateandTime,false).getMessage(), new ChatMessage(msg, currentDateandTime,true).getTimeSent(), new ChatMessage(msg, currentDateandTime,true).getIsSentButton() );
+            chatModel.messages.getValue().add((fongjason.lab01.ChatMessage) ChatMessage);
+            myAdapter.notifyItemInserted( messages.size() - 1 );
             //clear the previous text:
             binding.message.setText("");
         });
@@ -56,61 +74,55 @@ public class ChatRoom extends AppCompatActivity {
         //Set a layout manager for the rows to be aligned vertically using only 1 column.
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<SenderViewHolder>() {
+        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
-            public SenderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
-                return new SenderViewHolder(  binding.getRoot() );
+            public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
+//                return new MyRowHolder(  binding.getRoot() );
+                if (viewType == 0) {
+                    View view = LayoutInflater.from(context).inflate(R.layout.sent_message, parent, true);
+                    return new MyRowHolder(view);
+                } else {
+                    View view = LayoutInflater.from(context).inflate(R.layout.receive_message, parent, true);
+                    return new MyRowHolder(view);
+                }
+
             }
 
             @Override
-            public void onBindViewHolder(@NonNull SenderViewHolder holder, int position) {
-
-                   SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MMM-dd hh:mm:ss a");
-                   String currentDateandTime = sdf.format(new Date());
-                   holder.textViewmessaage.setText((CharSequence) messages.get(position));
-                   holder.timeofmessage.setText(currentDateandTime);
-
+            public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
+                ChatMessage msg2 = messages.get(position);
+                holder.messageText.setText(msg2.getMessage());
+                holder.timeText.setText(msg2.getTimeSent());
             }
 
             @Override
             public int getItemCount() {
+
                 return messages.size();
             }
 
             @Override
             public int getItemViewType(int position) {
-               if (messages.get(position).type == SenderViewHolder) {
+                ChatMessage msg3 = messages.get(position);
+               if (msg3.getIsSentButton() == true){
                    return 0;
                } else {
                    return 1;
                }
             }
         });
-
     }
 
+    class MyRowHolder extends RecyclerView.ViewHolder {
+        TextView messageText;
+        TextView timeText;
 
-    class SenderViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewmessaage;
-        TextView timeofmessage;
-
-        public SenderViewHolder(@NonNull View itemView) {
+        public MyRowHolder(@NonNull View itemView) {
             super(itemView);
-            textViewmessaage=itemView.findViewById(R.id.message);
-            timeofmessage=itemView.findViewById(R.id.time);
-        }
-    }
-
-    class RecieverViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewmessaage;
-        TextView timeofmessage;
-
-        public RecieverViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textViewmessaage=itemView.findViewById(R.id.message);
-            timeofmessage=itemView.findViewById(R.id.time);
+            messageText = itemView.findViewById(R.id.message);
+            timeText = itemView.findViewById(R.id.time);
         }
     }
 }
