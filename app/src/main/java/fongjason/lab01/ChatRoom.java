@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.BreakIterator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,24 +75,24 @@ public class ChatRoom extends AppCompatActivity {
         //Set a layout manager for the rows to be aligned vertically using only 1 column.
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
+        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder >() {
             @NonNull
             @Override
-            public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public MyRowHolder  onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 //                SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
 //                return new MyRowHolder(  binding.getRoot() );
                 if (viewType == 0) {
-                    View view = LayoutInflater.from(context).inflate(R.layout.sent_message, parent, true);
-                    return new MyRowHolder(view);
+                    View view = LayoutInflater.from(context).inflate(R.layout.sent_message, parent, false);
+                    return new MyRowHolder (view);
                 } else {
-                    View view = LayoutInflater.from(context).inflate(R.layout.receive_message, parent, true);
-                    return new MyRowHolder(view);
+                    View view = LayoutInflater.from(context).inflate(R.layout.receive_message, parent, false);
+                    return new MyRowHolder (view);
                 }
 
             }
 
             @Override
-            public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
+            public void onBindViewHolder(@NonNull MyRowHolder  holder, int position) {
                 ChatMessage msg2 = messages.get(position);
                 holder.messageText.setText(msg2.getMessage());
                 holder.timeText.setText(msg2.getTimeSent());
@@ -106,11 +107,11 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public int getItemViewType(int position) {
                 ChatMessage msg3 = messages.get(position);
-               if (msg3.getIsSentButton() == true){
+               if (msg3.isSentButton == true){
                    return 0;
                } else {
                    return 1;
-               }
+                }
             }
         });
     }
@@ -125,4 +126,25 @@ public class ChatRoom extends AppCompatActivity {
             timeText = itemView.findViewById(R.id.time);
         }
     }
+//    class SenderViewHolder extends RecyclerView.ViewHolder {
+//        TextView messageText;
+//        TextView timeText;
+//
+//        public SenderViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            messageText=itemView.findViewById(R.id.message);
+//            timeText=itemView.findViewById(R.id.time);
+//        }
+//    }
+//
+//    class RecieverViewHolder extends RecyclerView.ViewHolder {
+//        TextView messageText;
+//        TextView timeText;
+//
+//        public RecieverViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            messageText=itemView.findViewById(R.id.message);
+//            timeText=itemView.findViewById(R.id.time);
+//        }
+//    }
 }
