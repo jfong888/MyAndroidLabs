@@ -10,7 +10,7 @@ public class ChatMessage {
     String message;
     String timeSent;
     boolean isSentButton;
-
+    Context applicationContext;
 
     ChatMessage(String message, String timeSent, boolean isSentButton){
         this.message = message;
@@ -19,12 +19,16 @@ public class ChatMessage {
     }
 
     public ChatMessage(Context applicationContext, String message, String timeSent, Boolean isSentButton) {
-
+        this.applicationContext = applicationContext;
         this.message = message;
         this.timeSent = timeSent;
         this.isSentButton = isSentButton;
     }
+    public Context getContext(){
 
+        return applicationContext;
+
+    }
     public String getMessage(){
 
         return message;

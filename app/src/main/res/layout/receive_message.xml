@@ -5,28 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/Receiver"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+    <LinearLayout
+        android:layout_width="377dp"
+        android:layout_height="56dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/recieve" />
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="232dp"
-        android:layout_height="51dp"
-        android:hint="Message goes here"
-        app:layout_constraintEnd_toStartOf="@+id/Receiver"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="141dp"
+            android:layout_height="26dp"
+            android:hint="Time goes here"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toStartOf="@+id/message"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="130dp"
-        android:layout_height="26dp"
-        android:hint="Time goes here"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toStartOf="@+id/message"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="185dp"
+            android:layout_height="match_parent"
+            android:hint="Message goes here"
+            android:textAlignment="viewEnd"
+            app:layout_constraintEnd_toStartOf="@+id/Receiver"
+            app:layout_constraintStart_toEndOf="@+id/time"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/Receiver"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/message"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/recieve" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
