@@ -17,12 +17,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import fongjason.lab01.databinding.ActivityChatRoomBinding;
+import fongjason.lab01.databinding.ReceiveMessageBinding;
+import fongjason.lab01.databinding.SentMessageBinding;
 
 public class ChatRoom extends AppCompatActivity {
     ActivityChatRoomBinding binding;
     ChatRoomViewModel chatModel;
     ArrayList<ChatMessage> messages;
-    private RecyclerView.Adapter<RecyclerView.ViewHolder> myAdapter;
+    private RecyclerView.Adapter<SenderViewHolder> myAdapter;
     private Object ChatMessage;
 
     @Override
@@ -60,7 +62,7 @@ public class ChatRoom extends AppCompatActivity {
             String currentDateandTime = sdf.format(new Date());
             ChatMessage = new ChatMessage(getApplicationContext(), new ChatMessage(msg, currentDateandTime,false).getMessage(), new ChatMessage(msg, currentDateandTime,false).getTimeSent(), new ChatMessage(msg, currentDateandTime,false).getIsSentButton() );
             chatModel.messages.getValue().add((fongjason.lab01.ChatMessage) ChatMessage);
-            myAdapter.notifyItemInserted( messages.size() - 1);
+            myAdapter.notifyItemInserted( messages.size() - 1 );
             //clear the previous text:
             binding.message.setText("");
         });
@@ -68,29 +70,34 @@ public class ChatRoom extends AppCompatActivity {
         //Set a layout manager for the rows to be aligned vertically using only 1 column.
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<RecyclerView.ViewHolder >() {
+        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<SenderViewHolder>() {
             @NonNull
             @Override
-            public RecyclerView.ViewHolder  onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public SenderViewHolder  onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
                   View view = null;
                   if (viewType == 0) {
-                      view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sent_message, parent, false);
-                      return new SenderViewHolder(view);
+                      SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
+//                      view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sent_message, parent, false);
+                      return new SenderViewHolder(binding.getRoot());
                   } else {
-                      view = LayoutInflater.from(parent.getContext()).inflate(R.layout.receive_message, parent, false);
-                      return new RecieverViewHolder(view);
+                      ReceiveMessageBinding binding = ReceiveMessageBinding.inflate(getLayoutInflater());
+//                      view = LayoutInflater.from(parent.getContext()).inflate(R.layout.receive_message, parent, false);
+                      return new SenderViewHolder(binding.getRoot());
                   }
             }
 
             @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder  holder, int position) {
-                int type = getItemViewType(position);
-                if  (type == 0){
-                    ((SenderViewHolder)holder).bind(position);
-                } else {
-                    ((RecieverViewHolder)holder).bind(position);
-                }
+            public void onBindViewHolder(@NonNull SenderViewHolder  holder, int position) {
+                ChatMessage msg2 = messages.get(position);
+                holder.messageText.setText(msg2.getMessage());
+                holder.timeText.setText(msg2.getTimeSent());
+//                int type = getItemViewType(position);
+//                if  (type == 0){
+//                    ((SenderViewHolder)holder).bind(position);
+//                } else {
+//                    ((SenderViewHolder)holder).bind(position);
+//                }
 
             }
 
@@ -123,26 +130,26 @@ public class ChatRoom extends AppCompatActivity {
             messageText=itemView.findViewById(R.id.message);
             timeText=itemView.findViewById(R.id.time);
         }
-        public void bind (int position){
-            ChatMessage msg2 = messages.get(position);
-            messageText.setText(msg2.getMessage());
-            timeText.setText(msg2.getTimeSent());
-        }
+//        public void bind (int position){
+//            ChatMessage msg2 = messages.get(position);
+//            messageText.setText(msg2.getMessage());
+//            timeText.setText(msg2.getTimeSent());
+//        }
     }
 
-    class RecieverViewHolder extends RecyclerView.ViewHolder {
-        TextView messageTextR;
-        TextView timeTextR;
-
-        public RecieverViewHolder(@NonNull View itemView) {
-            super(itemView);
-            messageTextR=itemView.findViewById(R.id.message);
-            timeTextR=itemView.findViewById(R.id.time);
-        }
-        public void bind (int position){
-            ChatMessage msg6 = messages.get(position);
-            messageTextR.setText(msg6.getMessage());
-            timeTextR.setText(msg6.getTimeSent());
-        }
-    }
+//    class RecieverViewHolder extends RecyclerView.ViewHolder {
+//        TextView messageTextR;
+//        TextView timeTextR;
+//
+//        public RecieverViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            messageTextR=itemView.findViewById(R.id.message);
+//            timeTextR=itemView.findViewById(R.id.time);
+//        }
+//        public void bind (int position){
+//            ChatMessage msg6 = messages.get(position);
+//            messageTextR.setText(msg6.getMessage());
+//            timeTextR.setText(msg6.getTimeSent());
+//        }
+//    }
 }
