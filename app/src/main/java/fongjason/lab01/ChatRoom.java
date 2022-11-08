@@ -75,14 +75,11 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public SenderViewHolder  onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-                  View view = null;
                   if (viewType == 0) {
                       SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
-//                      view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sent_message, parent, false);
                       return new SenderViewHolder(binding.getRoot());
                   } else {
                       ReceiveMessageBinding binding = ReceiveMessageBinding.inflate(getLayoutInflater());
-//                      view = LayoutInflater.from(parent.getContext()).inflate(R.layout.receive_message, parent, false);
                       return new SenderViewHolder(binding.getRoot());
                   }
             }
@@ -92,13 +89,6 @@ public class ChatRoom extends AppCompatActivity {
                 ChatMessage msg2 = messages.get(position);
                 holder.messageText.setText(msg2.getMessage());
                 holder.timeText.setText(msg2.getTimeSent());
-//                int type = getItemViewType(position);
-//                if  (type == 0){
-//                    ((SenderViewHolder)holder).bind(position);
-//                } else {
-//                    ((SenderViewHolder)holder).bind(position);
-//                }
-
             }
 
             @Override
@@ -130,26 +120,5 @@ public class ChatRoom extends AppCompatActivity {
             messageText=itemView.findViewById(R.id.message);
             timeText=itemView.findViewById(R.id.time);
         }
-//        public void bind (int position){
-//            ChatMessage msg2 = messages.get(position);
-//            messageText.setText(msg2.getMessage());
-//            timeText.setText(msg2.getTimeSent());
-//        }
     }
-
-//    class RecieverViewHolder extends RecyclerView.ViewHolder {
-//        TextView messageTextR;
-//        TextView timeTextR;
-//
-//        public RecieverViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            messageTextR=itemView.findViewById(R.id.message);
-//            timeTextR=itemView.findViewById(R.id.time);
-//        }
-//        public void bind (int position){
-//            ChatMessage msg6 = messages.get(position);
-//            messageTextR.setText(msg6.getMessage());
-//            timeTextR.setText(msg6.getTimeSent());
-//        }
-//    }
 }
