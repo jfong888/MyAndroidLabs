@@ -37,7 +37,6 @@ public class ChatRoom extends AppCompatActivity {
 
     private RecyclerView.Adapter<MyRowHolder> myAdapter;
     ChatMessageDAO mDAO;
-    private Object ChatMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +71,10 @@ public class ChatRoom extends AppCompatActivity {
         }
 
         binding.send.setOnClickListener(click -> {
+            String msg = binding.message.getText().toString();
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MMM-dd hh:mm a");
             String currentDateandTime = sdf.format(new Date());
-            ChatMessage newMessage = new ChatMessage();
-            newMessage.setMessage( binding.message.getText().toString() );
-            newMessage.setTime(currentDateandTime);
-            newMessage.setIsSent(false);
+            ChatMessage newMessage = new ChatMessage(msg,currentDateandTime,true);
             chatModel.messages.getValue().add(newMessage);
 
             myAdapter.notifyItemInserted( messages.size()-1 );
@@ -91,12 +88,10 @@ public class ChatRoom extends AppCompatActivity {
         });
 
         binding.receive.setOnClickListener(click -> {
+            String msg2 = binding.message.getText().toString();
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, yyyy-MMM-dd hh:mm a");
             String currentDateandTime = sdf.format(new Date());
-            ChatMessage newMessage = new ChatMessage();
-            newMessage.setMessage( binding.message.getText().toString() );
-            newMessage.setTime(currentDateandTime);
-            newMessage.setIsSent(false);
+            ChatMessage newMessage = new ChatMessage(msg2,currentDateandTime,false);
             chatModel.messages.getValue().add(newMessage);
 
             myAdapter.notifyItemInserted( messages.size()-1 );
