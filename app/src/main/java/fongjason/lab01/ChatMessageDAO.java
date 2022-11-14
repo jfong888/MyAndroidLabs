@@ -10,7 +10,7 @@ import java.util.List;
 public interface ChatMessageDAO {
 
     @Insert
-    public void insertMessage(ChatMessage m);
+    public long insertMessage(ChatMessage m);
 
     //This matches the @Entity class name
     @Query("Select * from ChatMessage;")

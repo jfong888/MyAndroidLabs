@@ -155,43 +155,46 @@ public class ChatRoom extends AppCompatActivity {
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(clk -> {
-                int position = getAdapterPosition();
+            itemView.setOnClickListener(click ->{
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
-                builder.setMessage("Do you want to delete the message: " + messageText.getText())
-                        .setTitle("Question:")
-                        .setNegativeButton("No", (dialog, cl) -> {})
-                        .setPositiveButton("Yes", (dialog, cl) -> {
-                            ChatMessage m = messages.get(position);
-                            mDAO.deleteMessage(m);
+            //which row was click
+            int position = getAdapterPosition();
+            ChatMessage thisMessage = messages.get(position);
 
-                            Snackbar.make(messageText, "You deleted message #"+position, Snackbar.LENGTH_LONG)
-                                    .setAction("Undo", clk1 -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
+            builder.setMessage(  thisMessage.message );
 
-                                        Executor thread = Executors.newSingleThreadExecutor();
-                                        thread.execute( () -> {
-                                            mDAO.insertMessage(m);
-                                        });
+            builder.setTitle("Do you want to delete this? ");
 
-                                        messages.add(position, m);
-                                        myAdapter.notifyItemInserted(position);
-                                    }).show();
+            builder.setNegativeButton("No", (a, b)->{   });
+            builder.setPositiveButton("Yes", (a, b)->{
+
+                Snackbar.make( messageText, "You deleted position #" + position, Snackbar.LENGTH_INDEFINITE)
+                        .setAction( "Undo", click1-> {
 
                             Executor thread = Executors.newSingleThreadExecutor();
                             thread.execute( () -> {
-                                mDAO.deleteMessage(m);
+                                mDAO.insertMessage(thisMessage);
                             });
+                            chatModel.messages.getValue().add(thisMessage);
+                            myAdapter.notifyItemInserted( position );
 
-                            messages.remove(position);
-                            myAdapter.notifyItemRemoved(position);
+                        } )  .show();
 
-                        }).create().show();
+                Executor thread = Executors.newSingleThreadExecutor();
+                thread.execute( () -> {
+                    mDAO.deleteMessage(thisMessage);
+                });
+
+                myAdapter.notifyItemRemoved( position );
+                chatModel.messages.getValue().remove(position);
 
             });
+            builder.create().show();
+        });
 
-            messageText = itemView.findViewById(R.id.message);
-            timeText = itemView.findViewById(R.id.time);
+        messageText = itemView.findViewById(R.id.message);
+        timeText = itemView.findViewById(R.id.time);
         }
     }
 }
