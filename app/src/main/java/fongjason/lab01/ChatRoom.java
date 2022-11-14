@@ -22,6 +22,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import fongjason.lab01.databinding.ActivityChatRoomBinding;
+import fongjason.lab01.databinding.ReceiveMessageBinding;
 import fongjason.lab01.databinding.SentMessageBinding;
 
 public class ChatRoom extends AppCompatActivity {
@@ -64,7 +65,7 @@ public class ChatRoom extends AppCompatActivity {
 
                 runOnUiThread(() -> binding.recycleView.setAdapter( myAdapter ) );
 
-            }  );
+            });
         }
 
         binding.send.setOnClickListener(click -> {
@@ -87,12 +88,37 @@ public class ChatRoom extends AppCompatActivity {
             });
         });
 
+        binding.receive.setOnClickListener(click -> {
+            // get message typed
+            String input = binding.message.getText().toString();
+
+            // get current date
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
+            String currentDateandTime = sdf.format(new Date());
+
+            ChatMessage cm = new ChatMessage(input, currentDateandTime, false);
+            messages.add(cm);
+
+            myAdapter.notifyItemInserted(messages.size()-1);
+            binding.message.setText("");
+
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute( () -> {
+                mDAO.insertMessage(cm);
+            });
+        });
+
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
-                return new MyRowHolder(binding.getRoot());
+                if (viewType == 0) {
+                    SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
+                    return new MyRowHolder(binding.getRoot());
+                } else {
+                    ReceiveMessageBinding binding = ReceiveMessageBinding.inflate(getLayoutInflater());
+                    return new MyRowHolder(binding.getRoot());
+                }
             }
 
             @Override
@@ -109,10 +135,17 @@ public class ChatRoom extends AppCompatActivity {
 
             @Override
             public int getItemViewType(int position) {
-                return 0;
+                ChatMessage msg = messages.get(position);
+                if (msg.getisSentBtn() == true) {
+                    return 0;
+                } else {
+                    return 1;
+                }
             }
         });
+
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     class MyRowHolder extends RecyclerView.ViewHolder {
@@ -126,13 +159,12 @@ public class ChatRoom extends AppCompatActivity {
                 int position = getAdapterPosition();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
-                builder.setMessage("Do you want to deletet the message: " + messageText.getText())
+                builder.setMessage("Do you want to delete the message: " + messageText.getText())
                         .setTitle("Question:")
                         .setNegativeButton("No", (dialog, cl) -> {})
                         .setPositiveButton("Yes", (dialog, cl) -> {
                             ChatMessage m = messages.get(position);
                             mDAO.deleteMessage(m);
-
 
                             Snackbar.make(messageText, "You deleted message #"+position, Snackbar.LENGTH_LONG)
                                     .setAction("Undo", clk1 -> {
