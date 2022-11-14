@@ -1,7 +1,5 @@
 package fongjason.lab01;
 
-import android.content.Context;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -12,13 +10,13 @@ public class ChatMessage{
     @ColumnInfo(name="message")
     protected String message;
 
-    @ColumnInfo(name="SendOrReceive")
+    @ColumnInfo(name = "SendOrReceive")
     protected boolean isSentBtn;
 
-    @ColumnInfo(name="Time")
-    protected String time;
+    @ColumnInfo(name = "TimeSent")
+    protected String timeSent;
 
-    @PrimaryKey (autoGenerate=true)
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="id")
     public int id;
 
@@ -26,7 +24,7 @@ public class ChatMessage{
 
     public ChatMessage(String msg, String ts, boolean isSent) {
         message = msg;
-        time = ts;
+        timeSent = ts;
         isSentBtn = isSent;
     }
 
@@ -34,55 +32,58 @@ public class ChatMessage{
         return message;
     }
 
-    public String getTime() {
-        return time;
+    public String getTimeSent() {
+        return timeSent;
     }
-
-    public boolean getIsSent(){
-        return isSentBtn;
+   public boolean getisSentBtn(){
+       return isSentBtn;
    }
 }
 
-//import android.content.Context;
+//@Entity
+//public class ChatMessage{
 //
-//public class ChatMessage {
+//    @ColumnInfo(name="message")
+//    protected String message;
 //
-//    String message;
-//    String timeSent;
-//    boolean isSentButton;
-//    Context applicationContext;
+//    @ColumnInfo(name="SendOrReceive")
+//    protected boolean isSentBtn;
 //
-//    ChatMessage(String message, String timeSent, boolean isSentButton){
-//        this.message = message;
-//        this.timeSent = timeSent;
-//        this.isSentButton = isSentButton;
+//    @ColumnInfo(name="Time")
+//    protected String time;
+//
+//    @PrimaryKey (autoGenerate=true)
+//    @ColumnInfo(name="id")
+//    public int id;
+//
+//    public ChatMessage(){    }
+//
+//    public ChatMessage(String msg, String ts, boolean isSent) {
+//        message = msg;
+//        time = ts;
+//        isSentBtn = isSent;
 //    }
+////    public ChatMessage(Context applicationContext, String message, String timeSent, Boolean isSentButton) {
+////        this.applicationContext = applicationContext;
+////        this.message = message;
+////        this.time = timeSent;
+////        this.isSentBtn = isSentButton;
+////    }
 //
-//    public ChatMessage(Context applicationContext, String message, String timeSent, Boolean isSentButton) {
-//        this.applicationContext = applicationContext;
-//        this.message = message;
-//        this.timeSent = timeSent;
-//        this.isSentButton = isSentButton;
-//    }
-//    public Context getContext(){
+////    public Context getContext(){
+////        return applicationContext;
+////    }
 //
-//        return applicationContext;
-//
-//    }
-//    public String getMessage(){
-//
+//    public String getMessage() {
 //        return message;
-//
 //    }
 //
-//    public String getTimeSent(){
-//
-//        return timeSent;
+//    public String getTime() {
+//        return time;
 //    }
 //
-//    public boolean getIsSentButton(){
-//
-//        return isSentButton;
-//    }
-//
+//    public boolean getIsSent(){
+//        return isSentBtn;
+//   }
 //}
+

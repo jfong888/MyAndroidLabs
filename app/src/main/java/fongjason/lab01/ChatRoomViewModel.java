@@ -1,10 +1,7 @@
-package data;
+package fongjason.lab01;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import fongjason.lab01.ChatMessage;
-import fongjason.lab01.ChatRoom;
 
 import java.util.ArrayList;
 
