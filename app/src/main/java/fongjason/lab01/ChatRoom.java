@@ -3,6 +3,8 @@ package fongjason.lab01;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,15 +38,16 @@ public class ChatRoom extends AppCompatActivity {
 
     ChatMessageDAO mDAO;
 
+    FragmentManager fMgr = getSupportFragmentManager();
+    FragmentTransaction tx = fMgr.beginTransaction();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
-
         messages = chatModel.messages.getValue();
 
         //load from the database:
@@ -143,9 +146,7 @@ public class ChatRoom extends AppCompatActivity {
                 }
             }
         });
-
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     class MyRowHolder extends RecyclerView.ViewHolder {
