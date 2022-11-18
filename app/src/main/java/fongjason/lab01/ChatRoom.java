@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -111,6 +112,10 @@ public class ChatRoom extends AppCompatActivity {
             });
         });
 
+        chatModel.selectedMessage.observe(this, (newMessageValue) -> {
+
+        });
+
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
@@ -156,10 +161,13 @@ public class ChatRoom extends AppCompatActivity {
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(click ->{
-
+            itemView.setOnClickListener(click -> {
+              int position = getAbsoluteAdapterPosition();
+              ChatMessage selected = messages.get(position);
+              chatModel.selectedMessage.postValue(selected);
+            });
             //which row was click
-            int position = getAdapterPosition();
+           /* int position = getAdapterPosition();
             ChatMessage thisMessage = messages.get(position);
 
             AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
@@ -195,7 +203,7 @@ public class ChatRoom extends AppCompatActivity {
         });
 
         messageText = itemView.findViewById(R.id.message);
-        timeText = itemView.findViewById(R.id.time);
+        timeText = itemView.findViewById(R.id.time);*/
         }
     }
 }
