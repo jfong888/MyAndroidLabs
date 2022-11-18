@@ -165,7 +165,7 @@ public class ChatRoom extends AppCompatActivity {
               int position = getAbsoluteAdapterPosition();
               ChatMessage selected = messages.get(position);
               chatModel.selectedMessage.postValue(selected);
-            });
+
             //which row was click
            /* int position = getAdapterPosition();
             ChatMessage thisMessage = messages.get(position);
@@ -199,11 +199,11 @@ public class ChatRoom extends AppCompatActivity {
                 chatModel.messages.getValue().remove(position);
 
             });
-            builder.create().show();
+            builder.create().show();*/
         });
 
         messageText = itemView.findViewById(R.id.message);
-        timeText = itemView.findViewById(R.id.time);*/
+        timeText = itemView.findViewById(R.id.time);
         }
     }
 }
