@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,22 +27,17 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import fongjason.lab01.databinding.ActivityChatRoomBinding;
+import fongjason.lab01.databinding.DetailsLayoutBinding;
 import fongjason.lab01.databinding.ReceiveMessageBinding;
 import fongjason.lab01.databinding.SentMessageBinding;
 
 public class ChatRoom extends AppCompatActivity {
 
     ActivityChatRoomBinding binding;
-
     ArrayList<ChatMessage> messages;
     private RecyclerView.Adapter<MyRowHolder> myAdapter;
-
     ChatRoomViewModel chatModel;
-
     ChatMessageDAO mDAO;
-
-    FragmentManager fMgr = getSupportFragmentManager();
-    FragmentTransaction tx = fMgr.beginTransaction();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +109,9 @@ public class ChatRoom extends AppCompatActivity {
             });
         });
 
-        chatModel.selectedMessage.observe(this, (newMessageValue) -> {
-
+        chatModel.selectedMessage.observe(this, (newValue) -> {
+            MessageDetailsFragment chatFragment = new MessageDetailsFragment(newValue);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLocation, chatFragment).commit();
         });
 
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {

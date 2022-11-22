@@ -14,6 +14,7 @@ public class MessageDetailsFragment extends Fragment{
     ChatMessage selected;
 
     public MessageDetailsFragment(ChatMessage m){
+
         selected = m;
     }
 
@@ -24,9 +25,17 @@ public class MessageDetailsFragment extends Fragment{
 
         binding.Message.setText(selected.message);
         binding.Time.setText(selected.timeSent);
+
+        if (selected.isSentBtn == true){
+            String sent = "Message sent By Jennifer";
+            binding.SendReceive.setText(sent);
+        } else {
+            String receive = "Message Received By John Wick";
+            binding.SendReceive.setText(receive);
+        }
+
         binding.DatabaseId.setText("ID = " + selected.id);
 
         return binding.getRoot();
     }
-
 }
