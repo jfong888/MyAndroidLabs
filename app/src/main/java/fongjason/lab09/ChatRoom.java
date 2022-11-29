@@ -1,24 +1,19 @@
-package fongjason.lab01;
+package fongjason.lab09;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModel;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,18 +21,29 @@ import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import fongjason.lab01.databinding.ActivityChatRoomBinding;
-import fongjason.lab01.databinding.DetailsLayoutBinding;
-import fongjason.lab01.databinding.ReceiveMessageBinding;
-import fongjason.lab01.databinding.SentMessageBinding;
+import fongjason.lab09.databinding.ActivityChatRoomBinding;
+import fongjason.lab09.databinding.DetailsLayoutBinding;
+import fongjason.lab09.databinding.ReceiveMessageBinding;
+import fongjason.lab09.databinding.SentMessageBinding;
 
 public class ChatRoom extends AppCompatActivity {
 
     ActivityChatRoomBinding binding;
     ArrayList<ChatMessage> messages;
-    private RecyclerView.Adapter<MyRowHolder> myAdapter;
+    private RecyclerView.Adapter<MyRowHolder2> myAdapter;
     ChatRoomViewModel chatModel;
     ChatMessageDAO mDAO;
+
+    @Override
+    public void setSupportActionBar(@Nullable Toolbar toolbar) {
+        super.setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,21 +120,21 @@ public class ChatRoom extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLocation, chatFragment).commit();
         });
 
-        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
+        binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder2>() {
             @NonNull
             @Override
-            public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public MyRowHolder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 if (viewType == 0) {
                     SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
-                    return new MyRowHolder(binding.getRoot());
+                    return new MyRowHolder2(binding.getRoot());
                 } else {
                     ReceiveMessageBinding binding = ReceiveMessageBinding.inflate(getLayoutInflater());
-                    return new MyRowHolder(binding.getRoot());
+                    return new MyRowHolder2(binding.getRoot());
                 }
             }
 
             @Override
-            public void onBindViewHolder(@NonNull MyRowHolder holder, int pos) {
+            public void onBindViewHolder(@NonNull MyRowHolder2 holder, int pos) {
                 ChatMessage obj = messages.get(pos);
                 holder.messageText.setText(obj.getMessage());
                 holder.timeText.setText(obj.getTimeSent());
@@ -152,16 +158,16 @@ public class ChatRoom extends AppCompatActivity {
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    class MyRowHolder extends RecyclerView.ViewHolder {
+    class MyRowHolder2 extends RecyclerView.ViewHolder {
         TextView messageText;
         TextView timeText;
 
-        public MyRowHolder(@NonNull View itemView) {
-            super(itemView);
+        public MyRowHolder2(@NonNull View itemView2) {
+            super(itemView2);
 
-            itemView.setOnClickListener(click -> {
-                int pos = getAbsoluteAdapterPosition();
-                ChatMessage selected = messages.get(pos);
+            itemView2.setOnClickListener( click -> {
+                int position = getAbsoluteAdapterPosition();
+                ChatMessage selected = messages.get(position);
                 chatModel.selectedMessage.postValue(selected);
 
                 //which row was click

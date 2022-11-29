@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "fongjason.lab01"
+        applicationId "fongjason.lab09"
         minSdk 22
         targetSdk 32
         versionCode 1

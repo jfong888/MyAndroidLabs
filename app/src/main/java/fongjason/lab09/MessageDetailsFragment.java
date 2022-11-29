@@ -1,4 +1,4 @@
-package fongjason.lab01;
+package fongjason.lab09;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import fongjason.lab01.databinding.DetailsLayoutBinding;
+import fongjason.lab09.databinding.DetailsLayoutBinding;
 
 public class MessageDetailsFragment extends Fragment{
 
