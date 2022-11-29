@@ -128,8 +128,8 @@ public class ChatRoom extends AppCompatActivity {
             }
 
             @Override
-            public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
-                ChatMessage obj = messages.get(position);
+            public void onBindViewHolder(@NonNull MyRowHolder holder, int pos) {
+                ChatMessage obj = messages.get(pos);
                 holder.messageText.setText(obj.getMessage());
                 holder.timeText.setText(obj.getTimeSent());
             }
@@ -140,8 +140,8 @@ public class ChatRoom extends AppCompatActivity {
             }
 
             @Override
-            public int getItemViewType(int position) {
-                ChatMessage msg = messages.get(position);
+            public int getItemViewType(int pos) {
+                ChatMessage msg = messages.get(pos);
                 if (msg.getisSentBtn() == true) {
                     return 0;
                 } else {
@@ -160,8 +160,8 @@ public class ChatRoom extends AppCompatActivity {
             super(itemView);
 
             itemView.setOnClickListener(click -> {
-                int position = getAbsoluteAdapterPosition();
-                ChatMessage selected = messages.get(position);
+                int pos = getAbsoluteAdapterPosition();
+                ChatMessage selected = messages.get(pos);
                 chatModel.selectedMessage.postValue(selected);
 
                 //which row was click
