@@ -1,5 +1,6 @@
 package fongjason.lab09;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,5 +38,7 @@ public class MessageDetailsFragment extends Fragment{
         binding.DatabaseId.setText("ID = " + selected.id);
 
         return binding.getRoot();
+
     }
+
 }

@@ -2,6 +2,7 @@ package fongjason.lab09;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,11 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.icu.text.Transliterator;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,17 +40,63 @@ public class ChatRoom extends AppCompatActivity {
     private RecyclerView.Adapter<MyRowHolder2> myAdapter;
     ChatRoomViewModel chatModel;
     ChatMessageDAO mDAO;
-
-    @Override
-    public void setSupportActionBar(@Nullable Toolbar toolbar) {
-        super.setSupportActionBar(toolbar);
-    }
+    TextView messageText;
+    Integer position;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.my_menu, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch( item.getItemId() )
+        {
+            case R.id.item_1:
+                ChatMessage thisMessage = messages.get(position);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
+                builder.setMessage(  thisMessage.message );
+
+                builder.setTitle("Do you want to delete this? ");
+
+                builder.setNegativeButton("No", (a, b)->{   });
+                builder.setPositiveButton("Yes", (a, b)->{
+
+                    Snackbar.make( messageText, "You deleted position #" + position, Snackbar.LENGTH_INDEFINITE)
+                            .setAction( "Undo", click1-> {
+
+                                Executor thread = Executors.newSingleThreadExecutor();
+                                thread.execute( () -> {
+                                    mDAO.insertMessage(thisMessage);
+                                });
+                                chatModel.messages.getValue().add(thisMessage);
+                                myAdapter.notifyItemInserted( position );
+
+                            } )  .show();
+
+                    Executor thread = Executors.newSingleThreadExecutor();
+                    thread.execute( () -> {
+                        mDAO.deleteMessage(thisMessage);
+                    });
+
+                    myAdapter.notifyItemRemoved( position );
+                    chatModel.messages.getValue().remove(position);
+
+                });
+                builder.create().show();
+                break;
+            case R.id.item_2:
+                  Toast toast = Toast.makeText(getApplicationContext(), "Version 1.0 created by Jason Fong", Toast.LENGTH_LONG);
+                  toast.show();
+                break;
+        }
+
+        return true;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +106,9 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(binding.getRoot());
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
         messages = chatModel.messages.getValue();
+        Toolbar toolbar = binding.toolbar;
+
+        setSupportActionBar(toolbar);
 
         //load from the database:
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "MessageDatabase").build();
@@ -170,40 +226,6 @@ public class ChatRoom extends AppCompatActivity {
                 ChatMessage selected = messages.get(position);
                 chatModel.selectedMessage.postValue(selected);
 
-                //which row was click
-           /* int position = getAdapterPosition();
-            ChatMessage thisMessage = messages.get(position);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
-            builder.setMessage(  thisMessage.message );
-
-            builder.setTitle("Do you want to delete this? ");
-
-            builder.setNegativeButton("No", (a, b)->{   });
-            builder.setPositiveButton("Yes", (a, b)->{
-
-                Snackbar.make( messageText, "You deleted position #" + position, Snackbar.LENGTH_INDEFINITE)
-                        .setAction( "Undo", click1-> {
-
-                            Executor thread = Executors.newSingleThreadExecutor();
-                            thread.execute( () -> {
-                                mDAO.insertMessage(thisMessage);
-                            });
-                            chatModel.messages.getValue().add(thisMessage);
-                            myAdapter.notifyItemInserted( position );
-
-                        } )  .show();
-
-                Executor thread = Executors.newSingleThreadExecutor();
-                thread.execute( () -> {
-                    mDAO.deleteMessage(thisMessage);
-                });
-
-                myAdapter.notifyItemRemoved( position );
-                chatModel.messages.getValue().remove(position);
-
-            });
-            builder.create().show();*/
             });
 
             messageText = itemView.findViewById(R.id.message);

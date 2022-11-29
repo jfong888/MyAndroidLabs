@@ -11,7 +11,7 @@
         android:layout_width="220dp"
         android:layout_height="45dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="77dp"
         android:text="Message  Goes  Here"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,4 +42,5 @@
         android:text="Database Id Goes Here"
         app:layout_constraintStart_toStartOf="@+id/SendReceive"
         app:layout_constraintTop_toBottomOf="@+id/SendReceive" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
