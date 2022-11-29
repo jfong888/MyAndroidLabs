@@ -160,11 +160,11 @@ public class ChatRoom extends AppCompatActivity {
             super(itemView);
 
             itemView.setOnClickListener(click -> {
-              int position = getAbsoluteAdapterPosition();
-              ChatMessage selected = messages.get(position);
-              chatModel.selectedMessage.postValue(selected);
+                int position = getAbsoluteAdapterPosition();
+                ChatMessage selected = messages.get(position);
+                chatModel.selectedMessage.postValue(selected);
 
-            //which row was click
+                //which row was click
            /* int position = getAdapterPosition();
             ChatMessage thisMessage = messages.get(position);
 
@@ -198,12 +198,17 @@ public class ChatRoom extends AppCompatActivity {
 
             });
             builder.create().show();*/
-        });
+            });
 
-        messageText = itemView.findViewById(R.id.message);
-        timeText = itemView.findViewById(R.id.time);
+            messageText = itemView.findViewById(R.id.message);
+            timeText = itemView.findViewById(R.id.time);
         }
+
     }
+
 }
+
+
+
 
 

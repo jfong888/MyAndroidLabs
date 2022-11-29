@@ -8,35 +8,31 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id='@+id/recycleView'
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="387dp"
+        android:layout_height="600dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.016"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
+        android:layout_width="94dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="1dp"
         android:text="Send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycleView" />
+        app:layout_constraintTop_toBottomOf="@+id/recycleView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/message"
-        android:layout_width="215dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="1dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:ems="10"
-        android:hint="Enter your message here :)"
+        android:hint="Enter message here "
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/receive"
@@ -46,14 +42,29 @@
 
     <Button
         android:id="@+id/receive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         android:text="Receive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/message"
-        app:layout_constraintTop_toBottomOf="@+id/recycleView" />
+        app:layout_constraintTop_toBottomOf="@+id/recycleView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <FrameLayout
+        android:id="@+id/fragmentLocation"
+        android:layout_width="842dp"
+        android:layout_height="788dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recycleView"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
