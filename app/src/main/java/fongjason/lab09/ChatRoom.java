@@ -173,7 +173,8 @@ public class ChatRoom extends AppCompatActivity {
 
         chatModel.selectedMessage.observe(this, (newValue) -> {
             MessageDetailsFragment chatFragment = new MessageDetailsFragment(newValue);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLocation, chatFragment).commit();
+           // getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLocation, chatFragment, "Back").commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLocation, chatFragment, "Back").addToBackStack("Back").commit();
         });
 
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder2>() {
