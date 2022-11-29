@@ -3,12 +3,17 @@ package fongjason.lab01;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -22,18 +27,16 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import fongjason.lab01.databinding.ActivityChatRoomBinding;
+import fongjason.lab01.databinding.DetailsLayoutBinding;
 import fongjason.lab01.databinding.ReceiveMessageBinding;
 import fongjason.lab01.databinding.SentMessageBinding;
 
 public class ChatRoom extends AppCompatActivity {
 
     ActivityChatRoomBinding binding;
-
     ArrayList<ChatMessage> messages;
     private RecyclerView.Adapter<MyRowHolder> myAdapter;
-
     ChatRoomViewModel chatModel;
-
     ChatMessageDAO mDAO;
 
     @Override
@@ -42,9 +45,7 @@ public class ChatRoom extends AppCompatActivity {
 
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
-
         messages = chatModel.messages.getValue();
 
         //load from the database:
@@ -108,6 +109,11 @@ public class ChatRoom extends AppCompatActivity {
             });
         });
 
+        chatModel.selectedMessage.observe(this, (newValue) -> {
+            MessageDetailsFragment chatFragment = new MessageDetailsFragment(newValue);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentLocation, chatFragment).commit();
+        });
+
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
@@ -143,9 +149,7 @@ public class ChatRoom extends AppCompatActivity {
                 }
             }
         });
-
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     class MyRowHolder extends RecyclerView.ViewHolder {
@@ -155,10 +159,13 @@ public class ChatRoom extends AppCompatActivity {
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(click ->{
+            itemView.setOnClickListener(click -> {
+              int position = getAbsoluteAdapterPosition();
+              ChatMessage selected = messages.get(position);
+              chatModel.selectedMessage.postValue(selected);
 
             //which row was click
-            int position = getAdapterPosition();
+           /* int position = getAdapterPosition();
             ChatMessage thisMessage = messages.get(position);
 
             AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
@@ -190,7 +197,7 @@ public class ChatRoom extends AppCompatActivity {
                 chatModel.messages.getValue().remove(position);
 
             });
-            builder.create().show();
+            builder.create().show();*/
         });
 
         messageText = itemView.findViewById(R.id.message);
