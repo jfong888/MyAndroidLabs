@@ -1,4 +1,4 @@
-package fongjason.lab09;
+package fongjason.lab01;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

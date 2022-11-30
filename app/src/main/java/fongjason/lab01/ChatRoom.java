@@ -1,7 +1,6 @@
-package fongjason.lab09;
+package fongjason.lab01;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,9 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.icu.text.Transliterator;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,10 +25,10 @@ import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import fongjason.lab09.databinding.ActivityChatRoomBinding;
-import fongjason.lab09.databinding.DetailsLayoutBinding;
-import fongjason.lab09.databinding.ReceiveMessageBinding;
-import fongjason.lab09.databinding.SentMessageBinding;
+import fongjason.lab01.databinding.ActivityChatRoomBinding;
+import fongjason.lab01.databinding.DetailsLayoutBinding;
+import fongjason.lab01.databinding.ReceiveMessageBinding;
+import fongjason.lab01.databinding.SentMessageBinding;
 
 public class ChatRoom extends AppCompatActivity {
 
@@ -40,8 +37,8 @@ public class ChatRoom extends AppCompatActivity {
     private RecyclerView.Adapter<MyRowHolder2> myAdapter;
     ChatRoomViewModel chatModel;
     ChatMessageDAO mDAO;
-    TextView messageText;
-    Integer position;
+    TextView selectedmessage;
+    int selectedposition;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,7 +52,8 @@ public class ChatRoom extends AppCompatActivity {
         switch( item.getItemId() )
         {
             case R.id.item_1:
-                ChatMessage thisMessage = messages.get(position);
+
+                ChatMessage thisMessage = messages.get(selectedposition);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
                 builder.setMessage(  thisMessage.message );
@@ -65,7 +63,7 @@ public class ChatRoom extends AppCompatActivity {
                 builder.setNegativeButton("No", (a, b)->{   });
                 builder.setPositiveButton("Yes", (a, b)->{
 
-                    Snackbar.make( messageText, "You deleted position #" + position, Snackbar.LENGTH_INDEFINITE)
+                    Snackbar.make( selectedmessage, "You deleted position #" + selectedposition, Snackbar.LENGTH_INDEFINITE)
                             .setAction( "Undo", click1-> {
 
                                 Executor thread = Executors.newSingleThreadExecutor();
@@ -73,7 +71,7 @@ public class ChatRoom extends AppCompatActivity {
                                     mDAO.insertMessage(thisMessage);
                                 });
                                 chatModel.messages.getValue().add(thisMessage);
-                                myAdapter.notifyItemInserted( position );
+                                myAdapter.notifyItemInserted( selectedposition );
 
                             } )  .show();
 
@@ -82,8 +80,9 @@ public class ChatRoom extends AppCompatActivity {
                         mDAO.deleteMessage(thisMessage);
                     });
 
-                    myAdapter.notifyItemRemoved( position );
-                    chatModel.messages.getValue().remove(position);
+                    myAdapter.notifyItemRemoved( selectedposition );
+                    chatModel.messages.getValue().remove(selectedposition);
+                    this.onBackPressed();
 
                 });
                 builder.create().show();
@@ -224,12 +223,14 @@ public class ChatRoom extends AppCompatActivity {
 
             itemView2.setOnClickListener( click -> {
                 int position = getAbsoluteAdapterPosition();
+                selectedposition = position;
                 ChatMessage selected = messages.get(position);
                 chatModel.selectedMessage.postValue(selected);
 
             });
 
             messageText = itemView.findViewById(R.id.message);
+            selectedmessage = messageText;
             timeText = itemView.findViewById(R.id.time);
         }
 
