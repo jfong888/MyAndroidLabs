@@ -1,92 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fongjason.lab01.ui.MainActivity">
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textview"
+        android:id="@+id/citylabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_message"/>
+        android:text="Type in the name of the city:" />
 
     <EditText
-        android:id="@+id/myedittext"
-        android:hint="@string/hinttext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/editmessage"/>
+        android:id="@+id/cityTextField"
+        android:hint="Enter city here"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/mybutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
-        android:text="@string/button_message"/>
-
-    <TextView
-        android:id="@+id/textview2"
+        android:id="@+id/forecastbutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/textview2"/>
-
-    <CheckBox
-        android:id="@+id/checkbox1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/checkbox1"/>
-
-    <CheckBox
-        android:id="@+id/checkbox2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/checkbox2"/>
-
-    <RadioGroup
-        android:id="@+id/radiogroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <RadioButton
-        android:id="@+id/radiobutton1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/radiobutton1"
-        android:defaultFocusHighlightEnabled="false"/>
-
-    <RadioButton
-        android:id="@+id/radiobutton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/radiobutton2"
-        android:defaultFocusHighlightEnabled="false"/>
-    </RadioGroup>
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/switch1"/>
-
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/switch2"/>
-
-    <ImageView
-        android:src="@drawable/logo_algonquin"
-        android:layout_width="300dp"
-        android:layout_height="150dp"/>
-
-    <ImageButton
-        android:id="@+id/myimagebutton"
-        android:src="@drawable/logo_algonquin2"
-        android:layout_width="300dp"
-        android:layout_height="70dp"/>
-
+        android:text="Get Forecast" />
 
 </LinearLayout>
