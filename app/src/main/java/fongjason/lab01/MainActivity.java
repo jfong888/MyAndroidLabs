@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         queue = Volley.newRequestQueue(this);
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding binding = ActivityMainBinding.inflate( getLayoutInflater() );
         setContentView(binding.getRoot());
 
 
@@ -51,15 +51,17 @@ public class MainActivity extends AppCompatActivity {
                     (response) -> {
 
                         try {
-                            JSONObject coord = response.getJSONObject("coord");
+                            JSONObject coord = response.getJSONObject( "coord" );
                             iconName = response.getJSONArray("weather").getJSONObject(0).getString("icon");
 
 
                             String pathname = getFilesDir() + "/" + iconName + ".png";
                             File file = new File(pathname);
-                            if (file.exists()) {
+                            if(file.exists())
+                            {
                                 image = BitmapFactory.decodeFile(pathname);
-                            } else {
+                            }
+                            else {
                                 imgReq = new ImageRequest("https://openweathermap.org/img/w/" + iconName + ".png", new Response.Listener<Bitmap>() {
                                     @Override
                                     public void onResponse(Bitmap bitmap) {
@@ -67,19 +69,17 @@ public class MainActivity extends AppCompatActivity {
                                             // Do something with loaded bitmap...
                                             image = bitmap;
                                             image.compress(Bitmap.CompressFormat.PNG, 300, MainActivity.this.openFileOutput(iconName + ".png", Activity.MODE_PRIVATE));
-                                        } catch (Exception e) {
+                                        }
+                                        catch(Exception e){
 
                                         }
                                     }
-                                }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {
-                                });
+                                }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {   });
                             }
 
                             JSONArray weatherArray = response.getJSONArray("weather");
                             JSONObject position0 = weatherArray.getJSONObject(0);
-
                             String description = position0.getString("description");
-                            String iconName = position0.getString("icon");
 
                             JSONObject mainObject = response.getJSONObject("main");
                             double current = mainObject.getDouble("temp");
@@ -87,11 +87,10 @@ public class MainActivity extends AppCompatActivity {
                             double max = mainObject.getDouble("temp_max");
                             int humidity = mainObject.getInt("humidity");
 
-
                             binding.temp.setText("The current temperature is " + current + " Degree Celsius");
                             binding.temp.setVisibility(View.VISIBLE);
 
-                            binding.maxTemp.setText("The min temperature is " + max + " Degree Celsius");
+                            binding.maxTemp.setText("The max temperature is " + max + " Degree Celsius");
                             binding.maxTemp.setVisibility(View.VISIBLE);
 
                             binding.minTemp.setText("The min temperature is " + min + " Degree Celsius");
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     },
                     (error) -> {
                         Log.e("Error", "error");
-                    });
+                    } );
             queue.add(request);
         });
     }
